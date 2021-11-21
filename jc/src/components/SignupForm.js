@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { firestoreDB } from '../adapters/firestore'
 
 import { AiFillFacebook } from 'react-icons/ai';
 
@@ -46,6 +47,7 @@ function SignUp() {
       .then((ref) => {
         setLoading(false);
         history.push('/');
+        {/*firestoreDB.collection('users').doc("testUID".uid).set("testUID");*/}
       })
       .catch((err) => {
         setError(err.message);
@@ -79,9 +81,9 @@ function SignUp() {
 
       <AuthForm onSubmit={(e) => handleSignup(e)}>
         <InputField
-          inputPlaceholder="Mobile Number or Email"
+          inputPlaceholder="Email"
           inputType="email"
-          labelText="Mobile Number or Email"
+          labelText="Email"
           inputRequired={true}
           inputRef={emailRef}
         />

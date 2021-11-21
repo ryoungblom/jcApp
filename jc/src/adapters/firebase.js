@@ -12,4 +12,4 @@ const firebaseConfig = {
 
 const myApp = firebase.initializeApp(firebaseConfig);
 
-export const auth = myApp.auth();
+export const fbApp = myApp;

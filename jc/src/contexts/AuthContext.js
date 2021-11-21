@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect, createContext } from 'react';
 
-import { auth } from '../adapters/firebase';
+import { fbApp } from '../adapters/firebase';
 
 const AuthContext = createContext();
 
@@ -14,13 +14,23 @@ export function AuthProvider({ children }) {
 
   const signup = (email, password, fullName) => {
     let promise = new Promise(function (resolve, reject) {
-      auth
+      fbApp.auth()
         .createUserWithEmailAndPassword(email, password)
         .then((ref) => {
+
           ref.user.updateProfile({
             displayName: fullName,
           });
-          resolve(ref);
+
+          console.log("Created User ID: ", ref.user.uid);
+
+          fbApp.firestore().collection('users').doc(ref.user.uid).set({
+            name: fullName,
+            email: email,
+            orders: 0,
+          }).then((ref => {resolve(ref);}))
+
+
         })
         .catch((error) => reject(error));
     });
@@ -30,9 +40,11 @@ export function AuthProvider({ children }) {
 
   const signin = (email, password) => {
     let promise = new Promise(function (resolve, reject) {
-      auth
+      fbApp.auth()
         .signInWithEmailAndPassword(email, password)
         .then((ref) => {
+          console.log("Logged In:")
+          console.log(ref.user.uid)
           resolve(ref);
         })
         .catch((error) => {
@@ -44,12 +56,12 @@ export function AuthProvider({ children }) {
   };
 
   const signout = () => {
-    return auth.signOut();
+    return fbApp.auth().signOut();
   };
 
   const passwordReset = (email) => {
     let promise = new Promise(function (resolve, reject) {
-      auth
+      fbApp.auth()
         .sendPasswordResetEmail(email)
         .then(() => {
           resolve(`Password Reset Email sent to ${email}`);
@@ -63,7 +75,7 @@ export function AuthProvider({ children }) {
   };
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = fbApp.auth().onAuthStateChanged((user) => {
       console.log(user);
       setCurrentUser(user);
       setLoading(false);

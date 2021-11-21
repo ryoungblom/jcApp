@@ -1,7 +1,9 @@
 import { RiSettings3Line } from 'react-icons/ri';
-
+import { doc, getDoc } from "firebase/firestore";
 import { useAuth } from '../contexts/AuthContext';
+import { fbApp } from '../adapters/firebase';
 import Intake from '../components/Intake';
+import { useGetData } from "../hooks/useGetData";
 
 import {
   BannerContainer,
@@ -19,7 +21,23 @@ import {
 import blankProfile from '../images/BlankImage.jpg';
 
 function ProfileBanner() {
+
   const { currentUser } = useAuth();
+
+  if (currentUser !== null) {
+    // The user object has basic properties such as display name, email, etc.
+    const displayName = currentUser.displayName;
+    const email = currentUser.email;
+    const photoURL = currentUser.photoURL;
+    const emailVerified = currentUser.emailVerified;
+
+    // The user's ID, unique to the Firebase project. Do NOT use
+    // this value to authenticate with your backend server, if
+    // you have one. Use User.getToken() instead.
+    const uid = currentUser.uid;
+  }
+
+  const [documents] = useGetData();
 
   return (
     <BannerContainer>
@@ -35,13 +53,16 @@ function ProfileBanner() {
             <ActivityNumber>0</ActivityNumber> pending
           </ActivityText>
           <ActivityText>
-            <ActivityNumber>26</ActivityNumber> orders
+            <ActivityNumber>
+            {documents[0] ? documents[0].userData.orders : "0"}
+            {/*documents[0].userData.orders*/}
+            </ActivityNumber> orders
           </ActivityText>
           <ActivityText>
             <ActivityNumber>2</ActivityNumber> companies
           </ActivityText>
         </Activity>
-        {/* <DisplayName>Moses Ogbopina</DisplayName> */}
+        {/* <DisplayName> Name </DisplayName> */}
       </ProfileDetails>
       <Intake />
     </BannerContainer>
