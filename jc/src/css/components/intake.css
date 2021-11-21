@@ -1,0 +1,24 @@
+
+
+:root {
+  --button-background: #F1ECE3;
+  --button-text: #907746;
+  --background-global: #262626;
+  --secondary-color: #313131;
+  --text-form: #fafafa;
+  --secondary-text: #B4B1AA;
+}
+
+.typeformButton {
+  background-color: var(--button-background); /* Green */
+  border: none;
+  color: var(--button-text);
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 12px;
+}
