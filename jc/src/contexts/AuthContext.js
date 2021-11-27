@@ -12,24 +12,26 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
 
-  const signup = (email, password, fullName) => {
+  const signup = (email, password, firstName, lastName) => {
     let promise = new Promise(function (resolve, reject) {
       fbApp.auth()
         .createUserWithEmailAndPassword(email, password)
         .then((ref) => {
 
+          const fullNameCat = (firstName + " " + lastName)
+
           ref.user.updateProfile({
-            displayName: fullName,
+            displayName: fullNameCat,
           });
 
           console.log("Created User ID: ", ref.user.uid);
 
           fbApp.firestore().collection('users').doc(ref.user.uid).set({
-            name: fullName,
+            firstName: firstName,
+            lastName: lastName,
             email: email,
             orders: 0,
           }).then((ref => {resolve(ref);}))
-
 
         })
         .catch((error) => reject(error));
@@ -37,6 +39,28 @@ export function AuthProvider({ children }) {
 
     return promise;
   };
+
+  const updateImage = (image) => {
+    let promise = new Promise(function (resolve, reject) {
+      fbApp.auth().then((ref) => {
+        console.log("IN UPDATE********")
+        ref.user.updateProfile({
+            photoURL: image,
+          });
+
+          fbApp.firestore().collection('users').doc(ref.user.uid).set({
+            profileURL: image,
+          }).then((ref => {resolve(ref);}));
+
+          console.log("Updated User Photo: ", ref.user.uid);
+
+        })
+        .catch((error) => reject(error));
+      });
+    return promise;
+  };
+
+
 
   const signin = (email, password) => {
     let promise = new Promise(function (resolve, reject) {
@@ -87,6 +111,7 @@ export function AuthProvider({ children }) {
   const value = {
     currentUser,
     signup,
+    updateImage,
     signin,
     signout,
     passwordReset,

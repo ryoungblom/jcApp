@@ -17,6 +17,11 @@ export const BannerContainer = styled.div`
   gap: 80px;
 `;
 
+export const ProfileColumnFlex = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 export const ProfileImage = styled.img`
   width: 150px;
   height: 150px;

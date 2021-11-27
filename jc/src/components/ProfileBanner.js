@@ -4,6 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { fbApp } from '../adapters/firebase';
 import Intake from '../components/Intake';
 import { useGetData } from "../hooks/useGetData";
+import { useHistory } from "react-router-dom";
 
 import {
   BannerContainer,
@@ -23,12 +24,13 @@ import blankProfile from '../images/BlankImage.jpg';
 function ProfileBanner() {
 
   const { currentUser } = useAuth();
+  var photoURL
 
   if (currentUser !== null) {
     // The user object has basic properties such as display name, email, etc.
     const displayName = currentUser.displayName;
     const email = currentUser.email;
-    const photoURL = currentUser.photoURL;
+    photoURL = currentUser.photoURL;
     const emailVerified = currentUser.emailVerified;
 
     // The user's ID, unique to the Firebase project. Do NOT use
@@ -37,11 +39,14 @@ function ProfileBanner() {
     const uid = currentUser.uid;
   }
 
+  var userPFP = blankProfile;
+  photoURL ? userPFP = photoURL : userPFP = blankProfile
+
   const [documents] = useGetData();
 
   return (
     <BannerContainer>
-      <ProfileImage src={blankProfile} alt="profile" />
+      <ProfileImage src={userPFP} alt="profile" />
       <ProfileDetails>
         <ProfileMeta>
           <Username>{currentUser.displayName}</Username>

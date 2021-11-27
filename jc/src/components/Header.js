@@ -38,6 +38,11 @@ function Header() {
 
   const history = useHistory();
 
+  const adjustSettings = () =>{
+    let path = "/accounts/settings";
+    history.push(path);
+  }
+
   const { signout } = useAuth();
 
   const handleSignout = () => {
@@ -89,7 +94,7 @@ function Header() {
           </DropdownItem>
           <DropdownItem>
             <RiSettings3Line fontSize="1.2rem" />
-            <DropdownText>Settings</DropdownText>
+            <DropdownText onClick={adjustSettings}>Settings</DropdownText>
           </DropdownItem>
           <LogoutLink onClick={handleSignout}>
             <DropdownText>Logout</DropdownText>

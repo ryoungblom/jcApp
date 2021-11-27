@@ -29,7 +29,8 @@ function SignUp() {
   const [error, setError] = useState('');
 
   const emailRef = useRef();
-  const fullNameRef = useRef();
+  const firstNameRef = useRef();
+  const lastNameRef = useRef();
   const passwordRef = useRef();
 
   const { signup } = useAuth();
@@ -42,8 +43,9 @@ function SignUp() {
     setLoading(true);
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    const fullName = fullNameRef.current.value;
-    signup(email, password, fullName)
+    const firstName = firstNameRef.current.value;
+    const lastName = lastNameRef.current.value;
+    signup(email, password, firstName, lastName)
       .then((ref) => {
         setLoading(false);
         history.push('/');
@@ -89,11 +91,19 @@ function SignUp() {
         />
 
         <InputField
-          inputPlaceholder="Full Name"
+          inputPlaceholder="First Name"
           inputType="text"
-          labelText="Full Name"
+          labelText="First Name"
           inputRequired={true}
-          inputRef={fullNameRef}
+          inputRef={firstNameRef}
+        />
+
+        <InputField
+          inputPlaceholder="Last Name"
+          inputType="text"
+          labelText="Last Name"
+          inputRequired={true}
+          inputRef={lastNameRef}
         />
 
         {/* <InputField
