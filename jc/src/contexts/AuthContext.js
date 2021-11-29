@@ -8,6 +8,13 @@ export function useAuth() {
   return useContext(AuthContext);
 }
 
+function varEmailAlert() {
+  alert("Please verify your email address before continuing!")
+  window.location.reload(false);
+}
+
+
+
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
@@ -25,13 +32,18 @@ export function AuthProvider({ children }) {
           });
 
           console.log("Created User ID: ", ref.user.uid);
+          ref.user.sendEmailVerification();
 
           fbApp.firestore().collection('users').doc(ref.user.uid).set({
             firstName: firstName,
             lastName: lastName,
             email: email,
             orders: 0,
-          }).then((ref => {resolve(ref);}))
+          }).then((ref => {
+            fbApp.auth().signOut()
+            alert("Please check your email and confirm your email address!")
+            resolve(ref);
+          }))
 
         })
         .catch((error) => reject(error));
@@ -43,7 +55,6 @@ export function AuthProvider({ children }) {
   const updateImage = (image) => {
     let promise = new Promise(function (resolve, reject) {
       fbApp.auth().then((ref) => {
-        console.log("IN UPDATE********")
         ref.user.updateProfile({
             photoURL: image,
           });
@@ -64,16 +75,26 @@ export function AuthProvider({ children }) {
 
   const signin = (email, password) => {
     let promise = new Promise(function (resolve, reject) {
+
       fbApp.auth()
         .signInWithEmailAndPassword(email, password)
         .then((ref) => {
-          console.log("Logged In:")
-          console.log(ref.user.uid)
-          resolve(ref);
+
+          let user = fbApp.auth().currentUser;
+
+          console.log(user)
+
+          user.emailVerified ? resolve(ref) : varEmailAlert();
+          //console.log("Logged In:")
+          //console.log(ref.user.uid)
+          //resolve(ref);
+
         })
         .catch((error) => {
           reject(error);
         });
+
+
     });
 
     return promise;

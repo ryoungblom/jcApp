@@ -108,15 +108,14 @@ function SettingModule() {
   return (
     <BannerContainer>
       <ProfileColumnFlex>
-        {console.log()}
         <ProfileImage src={userPFP} alt="profile" />
-        <input type="file" onChange={(e)=>{setImage(e.target.files[0])}}/>
-        <button onClick={(e) => upload(e)}>Upload</button>
+        <input style={{margin: "5px"}} type="file" onChange={(e)=>{setImage(e.target.files[0])}}/>
+        <button style={{width: "70%"}} className="typeformButton" onClick={(e) => upload(e)}>Upload</button>
       </ProfileColumnFlex>
       <ProfileDetails>
         <ProfileMeta>
           <Username>{currentUser.displayName}</Username>
-          <EditButton>View Orders</EditButton>
+          <EditButton>Update Data</EditButton>
           <RiSettings3Line cursor="pointer" fontSize="1.5rem" />
         </ProfileMeta>
         <Activity>

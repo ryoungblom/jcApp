@@ -13,7 +13,7 @@ function ProfileButton() {
 
   return (
 
-    <button color="primary" className="px-4"
+    <button color="primary" className="typeformButton"
       onClick={routeChange}>
         Back to Profile
     </button>
