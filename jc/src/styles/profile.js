@@ -17,6 +17,16 @@ export const BannerContainer = styled.div`
   gap: 80px;
 `;
 
+export const UserFeed = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+`;
+
 export const ProfileColumnFlex = styled.div`
   display: flex;
   flex-direction: column;

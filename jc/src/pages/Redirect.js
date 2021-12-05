@@ -23,18 +23,12 @@ function Redirecting () {
         <Header />
         <ProfileBanner />
         <ProfilePost />
-        <div>
-        {returnData && (
-              <div className="text-white">
-                  <h1> "hello" </h1>
-              </div>
-          )
-        }
-        </div>
+
       </ProfileContainer>
     ) : (
       <Redirect to="/accounts/signin" />
     )}
+
     </>
   );
 }

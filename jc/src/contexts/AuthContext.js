@@ -13,7 +13,6 @@ export function useAuth() {
 
 function varEmailAlert() {
   alert("Please verify your email address before continuing!")
-  window.location.reload(false);
 }
 
 export function AuthProvider({ children }) {
@@ -33,7 +32,7 @@ export function AuthProvider({ children }) {
 
       res.user.emailVerified ? console.log("yes") : console.log("no");
 
-      const userSubmittedName = "Rod Smith Jello Turtle"//res.user.displayName
+      const userSubmittedName = res.user.displayName
 
       //var [first, ...second] = userSubmittedName.split(" ")
       //second = second.join(" ")
@@ -143,8 +142,8 @@ export function AuthProvider({ children }) {
 
   function isNotSignedIn() {
     console.log("Email not verified!")
-    fbApp.auth().signOut()
-    routeChange()
+    //fbApp.auth().signOut()
+    //varEmailAlert();
   }
 
 
@@ -159,7 +158,21 @@ export function AuthProvider({ children }) {
 
           console.log(user)
 
-          user.emailVerified ? resolve(ref) : isNotSignedIn();
+          //user.emailVerified ? resolve(ref) : isNotSignedIn();
+
+          if (user.emailVerified) {
+            resolve(ref)
+          }
+
+          else {
+            isNotSignedIn()
+            fbApp.auth().signOut().then((ref => {
+
+              varEmailAlert()
+              resolve(ref)
+
+            }))
+          }
           //console.log("Logged In:")
           //console.log(ref.user.uid)
           //resolve(ref);

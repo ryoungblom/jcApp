@@ -10,6 +10,7 @@ export const AuthContainer = styled(ParentContainer)`
   background: #F1ECE3;
   color: #907746;
   align-self: center;
+  border-radius: 25px;
   border: thin solid #dbdbdb;
 
   @media (max-width: 450px) {
