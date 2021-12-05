@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import '../css/components/intake.css';
 import '../css/components/custom.css';
 
-import { AiFillFacebook } from 'react-icons/ai';
+import { AiFillGoogleSquare } from 'react-icons/ai';
 import { Link, useHistory } from 'react-router-dom';
 
 import { useAuth } from '../contexts/AuthContext';
@@ -34,7 +34,7 @@ function SignIn() {
 
   const history = useHistory();
 
-  const { signin } = useAuth();
+  const { signin, signInWithGoogle } = useAuth();
 
   const handleSignin = (e) => {
     e.preventDefault();
@@ -52,6 +52,22 @@ function SignIn() {
         setLoading(false);
       });
   };
+
+  const googleSignin = (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+    signInWithGoogle()
+      .then((ref) => {
+        setLoading(false);
+        history.push('/');
+      })
+      .catch((error) => {
+        setError(error.message);
+        setLoading(false);
+      });
+  };
+
 
   return (
     <AuthContainer>
@@ -96,8 +112,8 @@ function SignIn() {
       </Divider>
 
       <SocialLoginContainer>
-        <AiFillFacebook fontSize="1.3rem" color="#385185" />
-        <SocialLoginText>Log in with Facebook</SocialLoginText>
+        <AiFillGoogleSquare fontSize="1.3rem" color="#385185" />
+        <SocialLoginText onClick={(e) => googleSignin(e)}>Log in with Google</SocialLoginText>
       </SocialLoginContainer>
 
       <ForgotPassword>

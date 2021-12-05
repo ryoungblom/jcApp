@@ -8,6 +8,7 @@ import SignUp from './pages/SignUp';
 import ResetPassword from './pages/ResetPassword';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
+import Redirecting from './pages/Redirect';
 
 // styles
 import GlobalStyle, { ParentContainer } from './styles/globalStyle';
@@ -24,6 +25,7 @@ function App() {
             <Route path="/accounts/password/reset" component={ResetPassword} />
             <Route path="/accounts/signin" component={SignIn} />
             <Route path="/accounts/settings" component={Settings} />
+            <Route path="/accounts/redirect" component={Redirecting} />
           </Switch>
         </AuthProvider>
       </BrowserRouter>
